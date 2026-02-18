@@ -2,6 +2,14 @@
    BASE GÉNÉRALE
    ================================ */
 
+.container {
+  width: 100%;
+  max-width: 100%;
+  margin: 0;
+}
+
+
+
 * {
   box-sizing: border-box;
 }
@@ -22,11 +30,20 @@ body {
 header,
 main,
 footer {
-  max-width: 900px;
-  margin: auto;
-  padding: 1.5rem;
+  width: 100%;
   background-color: #ffffff;
+  padding: 2rem 0;
 }
+
+/* Contenu centré mais respirant */
+header > *,
+main > *,
+footer > * {
+  max-width: 1000px;
+  margin: auto;
+  padding: 0 2rem;
+}
+
 
 header {
   border-bottom: 1px solid #ddd;
@@ -207,4 +224,30 @@ img {
   width: 100%;
   height: 300px;
   object-fit: cover;
+}
+
+/* ================================
+   Bandeau de photos pour Johannnès Féréol
+   ================================ */
+.bandeau-photos {
+  display: flex;
+  justify-content: center;
+  gap: 50px;
+  margin-top: 40px;
+}
+
+.bandeau-photos img {
+  width: 220px;
+  height: 280px;               /* ovale vertical */
+  object-fit: cover;
+  border-radius: 50% / 60%;    /* ovale plus élégant qu’un simple 50% */
+  border: 8px solid #f4f1e8;   /* effet cadre ancien */
+  box-shadow: 0 8px 20px rgba(0,0,0,0.25);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+/* Effet au survol */
+.bandeau-photos img:hover {
+  transform: scale(1.05);
+  box-shadow: 0 12px 28px rgba(0,0,0,0.35);
 }
