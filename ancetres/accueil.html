@@ -1,182 +1,148 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fr">
 <head>
-  <meta charset="utf-8">
-  <title>Mes ancètres</title>
-  <link rel="stylesheet" href="../assets/css/main.css">
-  <style>
-    body {
-      scrollbar-gutter: stable;
-    }
-    .ancestors-container {
-      display: flex;
-      gap: 0;
-      align-items: stretch;
-      min-height: 800px;
-    }
-    .ancestors-container > ul {
-      max-width: 600px;
-    }
-    .ancestors-photo {
-      flex-shrink: 0;
-      max-width: 400px;
-      width: 400px;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 8px;
-      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-      cursor: pointer;
-      margin-left: 40px;
-    }
-    .ancestors-photo:hover {
-      opacity: 0.9;
-    }
-    .lightbox {
-      display: none;
-      position: fixed;
-      z-index: 1000;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      background-color: rgba(0, 0, 0, 0.8);
-    }
-    .lightbox.active {
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .lightbox-content {
-      max-width: 90vw;
-      max-height: 90vh;
-      position: relative;
-    }
-    .lightbox-image {
-      max-width: 100%;
-      max-height: 100%;
-      border-radius: 8px;
-    }
-    .lightbox-close {
-      position: absolute;
-      top: 20px;
-      right: 40px;
-      color: white;
-      font-size: 40px;
-      font-weight: bold;
-      cursor: pointer;
-      user-select: none;
-    }
-    .lightbox-close:hover {
-      color: #ccc;
-    }
-    body.lightbox-open {
-      overflow: hidden;
-    }
-  </style>
+<meta charset="UTF-8">
+<title>Arbre généalogique</title>
+<link rel="stylesheet" href="../assets/css/main.css">
 </head>
 <body>
 
-<nav>
-  <a href="../../index.html">Accueil</a> →
-  <a href="../index.html">Mes ancètres</a>
-</nav>
-
-<div class="ancestors-container">
-<ul class="wp-block-list">
-<li class="has-medium-font-size"><a href="pierre-giraudel/biographie.html">Pierre GIRAUDEL</a> (1927-2022)
-<ul class="wp-block-list">
-<li><a href="gaston-giraudel/biographie.html">Gaston GIRAUDEL</a> (1904-1973)
-<ul class="wp-block-list">
-<li><a href="joseph-giraudel/biographie.html">Joseph GIRAUDEL</a> (1876-1949)</li>
-
-
-
-<li>Laure CHILLAUD (1879-1958)</li>
-</ul>
-</li>
-
-
-
-<li><a href="genevieve-simon/biographie.html">Geneviève SIMON</a> (1904-1993)
-<ul class="wp-block-list">
-<li>Joseph SIMON (1858-1935)</li>
-
-
-
-<li>Jeanne MAZEAU (1865-1953)</li>
-</ul>
-</li>
-</ul>
-</li>
-
-
-
-<li class="has-medium-font-size"><a href="janine-fereol.temp/biographie.html">Janine FÉRÉOL</a> (1927-2021)
-<ul class="wp-block-list">
-<li><a href="jean-fereol-1891/biographie.html">Jean FÉRÉOL</a> (1891-1981)
-<ul class="wp-block-list">
-<li><a href="jean-fereol/biographie.html">Jean FÉRÉOL</a> (1862-1927)</li>
-
-
-
-<li>Antoinette MURAT (1863-1933)</li>
-</ul>
-</li>
-
-
-
-<li><a href="emma-coste/biographie.html">Emma COSTE</a> (1899-1987)
-<ul class="wp-block-list">
-<li>Pierre COSTE (1870-1947)</li>
-
-
-
-<li>Marie-Victorine GUILHEM (1876-1948)</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-
-<img src="photos/19500801.webp" alt="Famille" class="ancestors-photo" id="photoTrigger">
-</div>
-
-<div class="lightbox" id="lightbox">
-  <div class="lightbox-content">
-    <span class="lightbox-close" id="closeLightbox">&times;</span>
-    <img src="photos/19500801.webp" alt="Famille" class="lightbox-image">
-  </div>
-</div>
-
+<svg id="tree"></svg>
 <script>
-  const photo = document.getElementById('photoTrigger');
-  const lightbox = document.getElementById('lightbox');
-  const closeLightbox = document.getElementById('closeLightbox');
-  const body = document.body;
 
-  photo.addEventListener('click', () => {
-    lightbox.classList.add('active');
-    body.classList.add('lightbox-open');
+const ROOT_ID = 1;
+
+const people = [
+  { id: 1, name: "Jean-Luc GIRAUDEL", dates: "1958", photo: "images/jean-luc.jpg", link: "accueil.html", parent1: 2, parent2: 3 },
+
+  { id: 2, name: "Pierre GIRAUDEL", dates: "1927-2022", photo: "pierre-giraudel/photo/pg.webp", link: "pierre-giraudel/biographie.html", parent1: 4, parent2: 5 },
+  { id: 3, name: "Janine FÉRÉOL", dates: "1927-2021", photo: "janine-fereol/photo/jf.webp", link: "janine-fereol/biographie.html", parent1: 6, parent2: 7 },
+
+  { id: 4, name: "Gaston GIRAUDEL", dates: "1904-1973", photo: "gaston-giraudel/photo/gg.webp", link: "gaston-giraudel/biographie.html", parent1: 8, parent2: 9 },
+  { id: 5, name: "Geneviève SIMON", dates: "1904-1982", photo: "gaston-giraudel/photo/gs.webp", link: "gaston-giraudel/biographie.html", parent1: 10, parent2: 11 },
+  { id: 6, name: "Jean FÉRÉOL", dates: "1891-1960", photo: "jean-fereol-1891/photo/jf.webp", link: "jean-fereol-1891/biographie.html", parent1: 12, parent2: 13 },
+  { id: 7, name: "Emma COSTE", dates: "1899-1972", photo: "emma-coste/photo/ec.webp", link: "jean-fereol-1891/biographie.html", parent1: 14, parent2: 15 },
+
+  { id: 8, name: "Joseph GIRAUDEL", dates: "1870-1932", photo: "", link: "joseph-giraudel/biographie.html" },
+  { id: 9, name: "Laure CHILLAUD", dates: "1875-1941", photo: "joseph-giraudel/photo/lc.webp", link: "joseph-giraudel/biographie.html" },
+  { id: 10, name: "Joseph SIMON", dates: "1868-1930", photo: "joseph-simon/photo/js.webp", link: "joseph-simon/biographie.html" },
+  { id: 11, name: "Jeanne MAZEAU", dates: "1872-1950", photo: "joseph-simon/photo/jm.webp", link: "joseph-simon/biographie.html" },
+  { id: 12, name: "Jean FÉRÉOL", dates: "1860-1925", photo: "jean-fereol/photo/jean-fereol-1862.webp", link: "jean-fereol/biographie.html" },
+  { id: 13, name: "Antoinette MURAT", dates: "1865-1938", photo: "", link: "jean-fereol/biographie.html" },
+  { id: 14, name: "Pierre COSTE", dates: "1878-1944", photo: "pierre-coste/photo/pc.webp", link: "pierre-coste/biographie.html" },
+  { id: 15, name: "Augustine GUILHEM", dates: "1880-1952", photo: "pierre-coste/photo/ag.webp", link: "pierre-coste/biographie.html" },
+];
+
+const svg = document.getElementById("tree");
+
+function drawTree() {
+
+  svg.innerHTML = "";
+
+  const width = window.innerWidth;
+  const height = window.innerHeight;
+
+  svg.setAttribute("width", width);
+  svg.setAttribute("height", height);
+  svg.setAttribute("viewBox", `0 0 ${width} ${height}`);
+
+  const levelWidth = width / 4;
+  const boxWidth = width * 0.2;
+  const boxHeight = height * 0.08;
+  const imageSize = boxHeight * 0.8;
+
+  const positions = {};
+  const generations = {};
+
+  function assignGeneration(id, level) {
+    if (!generations[level]) generations[level] = [];
+    generations[level].push(id);
+
+    const person = people.find(p => p.id === id);
+    if (person.parent1) {
+      assignGeneration(person.parent1, level + 1);
+      assignGeneration(person.parent2, level + 1);
+    }
+  }
+
+  assignGeneration(ROOT_ID, 0);
+
+  Object.keys(generations).forEach(level => {
+    const ids = generations[level];
+    const spacing = height / (ids.length + 1);
+
+    ids.forEach((id, i) => {
+      positions[id] = {
+        x: level * levelWidth + levelWidth * 0.1,
+        y: spacing * (i + 1) - boxHeight / 2
+      };
+    });
   });
 
-  closeLightbox.addEventListener('click', () => {
-    lightbox.classList.remove('active');
-    body.classList.remove('lightbox-open');
-  });
-
-  lightbox.addEventListener('click', (e) => {
-    if (e.target === lightbox) {
-      lightbox.classList.remove('active');
-      body.classList.remove('lightbox-open');
+  // Lignes
+  people.forEach(person => {
+    if (person.parent1) {
+      [person.parent1, person.parent2].forEach(parentId => {
+        const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+        line.setAttribute("x1", positions[person.id].x + boxWidth);
+        line.setAttribute("y1", positions[person.id].y + boxHeight / 2);
+        line.setAttribute("x2", positions[parentId].x);
+        line.setAttribute("y2", positions[parentId].y + boxHeight / 2);
+        line.setAttribute("class", "link");
+        svg.appendChild(line);
+      });
     }
   });
 
-  document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape') {
-      lightbox.classList.remove('active');
-      body.classList.remove('lightbox-open');
-    }
+  // Cartes
+  people.forEach(person => {
+
+    const link = document.createElementNS("http://www.w3.org/2000/svg", "a");
+    link.setAttribute("href", person.link);
+
+    const group = document.createElementNS("http://www.w3.org/2000/svg", "g");
+    group.setAttribute("class", "card");
+
+    const rect = document.createElementNS("http://www.w3.org/2000/svg", "rect");
+    rect.setAttribute("x", positions[person.id].x);
+    rect.setAttribute("y", positions[person.id].y);
+    rect.setAttribute("width", boxWidth);
+    rect.setAttribute("height", boxHeight);
+    rect.setAttribute("class", "box");
+
+    const image = document.createElementNS("http://www.w3.org/2000/svg", "image");
+    image.setAttribute("href", person.photo);
+    image.setAttribute("x", positions[person.id].x + 10);
+    image.setAttribute("y", positions[person.id].y + (boxHeight - imageSize)/2);
+    image.setAttribute("width", imageSize);
+    image.setAttribute("height", imageSize);
+
+    const name = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    name.setAttribute("x", positions[person.id].x + boxWidth * 0.25);
+    name.setAttribute("y", positions[person.id].y + boxHeight * 0.4);
+    name.setAttribute("class", "name");
+    name.setAttribute("font-size", boxHeight * 0.22);
+    name.textContent = person.name;
+
+    const dates = document.createElementNS("http://www.w3.org/2000/svg", "text");
+    dates.setAttribute("x", positions[person.id].x + boxWidth * 0.25);
+    dates.setAttribute("y", positions[person.id].y + boxHeight * 0.65);
+    dates.setAttribute("class", "dates");
+    dates.setAttribute("font-size", boxHeight * 0.18);
+    dates.textContent = person.dates;
+
+    group.appendChild(rect);
+    group.appendChild(image);
+    group.appendChild(name);
+    group.appendChild(dates);
+    link.appendChild(group);
+    svg.appendChild(link);
   });
+}
+
+drawTree();
+window.addEventListener("resize", drawTree);
+
 </script>
 
 </body>

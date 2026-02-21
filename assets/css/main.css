@@ -251,3 +251,137 @@ img {
   transform: scale(1.05);
   box-shadow: 0 12px 28px rgba(0,0,0,0.35);
 }
+
+/* ================================
+   ARBRE HORIZONTAL PROFESSIONNEL
+   ================================ */
+
+.tree {
+  display: flex;
+  gap: 140px;
+  padding: 80px;
+  align-items: center;   /* ← IMPORTANT */
+  position: relative;
+}
+
+
+/* Colonnes générations */
+
+.generation {
+  display: flex;
+  flex-direction: column;   /* IMPORTANT */
+  gap: 120px;
+  position: relative;
+}
+/* Couples */
+
+.couple {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+
+.couple .person:first-child {
+  margin-right: 60px;
+}
+
+.couple::before {
+  content: "";
+  position: absolute;
+  left: calc(50% - 30px);
+  top: 50%;
+  width: 60px;
+  height: 2px;
+  background: #666;
+  transform: translateY(-50%);
+}
+
+/* Lignes de liaison horizontales */
+
+.generation:not(:first-child)::before {
+  content: "";
+  position: absolute;
+  left: -70px;
+  top: 0;
+  bottom: 0;
+  width: 2px;
+  background: #bbb;
+}
+
+/* Personnes */
+
+.person {
+  background: #f5f7fa;
+  border: 2px solid #c7ced6;
+  border-radius: 14px;
+  padding: 18px 22px;
+  min-width: 260px;
+  box-shadow: 0 8px 18px rgba(0,0,0,0.08);
+  font-weight: 600;
+}
+
+/* Photo */
+
+.person img {
+  width: 70px;
+  height: 90px;
+  object-fit: cover;
+  border-radius: 6px;
+  margin-right: 12px;
+}
+
+
+/* ================================
+   PHOTO FIXE BAS GAUCHE
+   ================================ */
+
+.floating-photo {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  width: 350px;          /* plus grande */
+  max-width: 40vw;       /* s’adapte aux petits écrans */
+  height: auto;
+  border-radius: 12px;
+  box-shadow: 0 10px 25px rgba(0,0,0,0.3);
+  border: 8px solid #fff;
+  z-index: 1000;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.floating-photo:hover {
+  transform: scale(1.05);
+  box-shadow: 0 15px 35px rgba(0,0,0,0.4);
+}
+
+/* arbre de l'accueil */
+.box {
+  fill: #fff8dc;
+  stroke: #5a4631;
+  stroke-width: 2;
+  rx: 12;
+  ry: 12;
+}
+
+.name {
+  font-size: 16px;
+  font-weight: bold;
+  fill: #3a2b1a;
+}
+
+.dates {
+  font-size: 13px;
+  fill: #6b5a45;
+}
+
+.card:hover .box {
+  fill: #f0e0b8;
+  stroke-width: 3;
+}
+
+svg {
+  width: 100vw;
+  height: 100vh;
+  display: block;
+}
+

@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>Arbre généalogique</title>
+<link rel="stylesheet" href="../assets/css/main.css">
+</head>
+<body>
+
+<svg id="tree"></svg>
+
+<script>
+
+const ROOT_ID = 1;
+
+const people = [
+  { id: 1, name: "Jean-Luc Giraudel", dates: "1958", photo: "images/jean-luc.jpg", link: "jean-luc.html", parent1: 2, parent2: 3 },
+
+  { id: 2, name: "Pierre Giraudel", dates: "1927-2008", photo: "images/pierre.jpg", link: "pierre.html", parent1: 4, parent2: 5 },
+  { id: 3, name: "Jeannine Féréol", dates: "1927-2014", photo: "images/jeannine.jpg", link: "jeannine.html", parent1: 6, parent2: 7 },
+
+  { id: 4, name: "Gaston Giraudel", dates: "1904-1976", photo: "images/gaston.jpg", link: "gaston.html", parent1: 8, parent2: 9 },
+  { id: 5, name: "Geneviève Simon", dates: "1904-1982", photo: "images/genevieve.jpg", link: "genevieve.html", parent1: 10, parent2: 11 },
+  { id: 6, name: "Jean-Antoine Féréol", dates: "1891-1960", photo: "images/jean-antoine.jpg", link: "jean-antoine.html", parent1: 12, parent2: 13 },
+  { id: 7, name: "Louise Coste", dates: "1899-1972", photo: "images/louise.jpg", link: "louise.html", parent1: 14, parent2: 15 },
+
+  { id: 8, name: "Arrière GP 1", dates: "1870-1932", photo: "images/agp1.jpg", link: "agp1.html" },
+  { id: 9, name: "Arrière GP 2", dates: "1875-1941", photo: "images/agp2.jpg", link: "agp2.html" },
+  { id: 10, name: "Arrière GP 3", dates: "1868-1930", photo: "images/agp3.jpg", link: "agp3.html" },
+  { id: 11, name: "Arrière GP 4", dates: "1872-1950", photo: "images/agp4.jpg", link: "agp4.html" },
+  { id: 12, name: "Arrière GP 5", dates: "1860-1925", photo: "images/agp5.jpg", link: "agp5.html" },
+  { id: 13, name: "Arrière GP 6", dates: "1865-1938", photo: "images/agp6.jpg", link: "agp6.html" },
+  { id: 14, name: "Arrière GP 7", dates: "1878-1944", photo: "images/agp7.jpg", link: "agp7.html" },
+  { id: 15, name: "Arrière GP 8", dates: "1880-1952", photo: "images/agp8.jpg", link: "agp8.html" },
+];
+
+const svg = document.getElementById("tree");
+svg.setAttribute("width", window.innerWidth);
+svg.setAttribute("height", window.innerHeight);
+svg.setAttribute("viewBox", `0 0 ${window.innerWidth} ${window.innerHeight}`);
+
+const levelWidth = window.innerWidth / 4;
+const positions = {};
+const generations = {};
+
+// 🔹 Calcul des générations à partir de la racine
+function assignGeneration(id, level) {
+  if (!generations[level]) generations[level] = [];
+  generations[level].push(id);
+
+  const person = people.find(p => p.id === id);
+  if (person.parent1) {
+    assignGeneration(person.parent1, level + 1);
+    assignGeneration(person.parent2, level + 1);
+  }
+}
+
+assignGeneration(ROOT_ID, 0);
+
+// 🔹 Placement automatique
+Object.keys(generations).forEach(level => {
+  const ids = generations[level];
+  const spacing = window.innerHeight / (ids.length + 1);
+
+  ids.forEach((id, i) => {
+    positions[id] = {
+      x: level * levelWidth + 60,
+      y: spacing * (i + 1)
+    };
+  });
+});
+
+// 🔹 Lignes
+people.forEach(person => {
+  if (person.parent1) {
+    [person.parent1, person.parent2].forEach(parentId => {
+      const line = document.createElementNS("http://www.w3.org/2000/svg", "line");
+      line.setAttribute("x1", positions[person.id].x + 250);
+      line.setAttribute("y1", positions[person.id].y + 50);
+      lin
+
+
+</body>
+</html>
