@@ -385,3 +385,148 @@ svg {
   display: block;
 }
 
+
+/* ================================
+   galeries page individus
+   ================================ */
+
+   #timeline {
+  max-width: 1000px;
+  margin: auto;
+  padding: 40px;
+}
+
+.year {
+  margin-top: 50px;
+  border-bottom: 2px solid #8b6f47;
+  padding-bottom: 5px;
+  font-family: "Garamond", serif;
+  color: #5a4632;
+}
+
+figure {
+  display: inline-block;
+  margin: 20px;
+  text-align: center;
+}
+
+figure img {
+  width: 220px;
+  height: auto;
+  border: 8px solid #e5d3b3;
+  box-shadow: 3px 3px 10px rgba(0,0,0,0.3);
+  background: #fdf6e3;
+  transition: transform 0.3s;
+}
+
+figure img:hover {
+  transform: scale(1.05);
+}
+
+figcaption {
+  margin-top: 8px;
+  font-size: 0.9em;
+  color: #4a3b2a;
+}
+/* ===============================
+   LIGHTBOX – Album intime équilibré
+================================= */
+
+.lightbox {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(circle at center, rgba(0,0,0,0.85), rgba(0,0,0,0.95));
+  z-index: 9999;
+}
+
+.lightbox.active {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 3vh 3vw;
+}
+
+/* Page d’album */
+.album-frame {
+  background: #f4ecd8;
+  width: min(95vw, 900px);
+  max-height: 94vh;
+  padding: 40px 50px 60px 50px;
+  box-shadow:
+    0 25px 70px rgba(0,0,0,0.6),
+    inset 0 0 80px rgba(0,0,0,0.12);
+  border-radius: 8px;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+
+  overflow-y: auto;
+}
+
+/* Image */
+.lightbox-content {
+  max-width: 100%;
+  max-height: 58vh;
+  height: auto;
+  border: 12px solid white;
+  box-shadow: 0 8px 25px rgba(0,0,0,0.4);
+  background: white;
+  object-fit: contain;
+}
+
+/* Légende manuscrite */
+#lightbox-caption {
+  margin-top: 28px;
+  font-family: "Brush Script MT", cursive;
+  font-size: clamp(1.1rem, 1.5vw, 1.4rem);
+  line-height: 1.6;
+  text-align: center;
+  white-space: pre-line;
+  max-width: 700px;
+  color: #4b3a28;
+}
+
+/* Bouton fermeture */
+.close {
+  position: absolute;
+  top: 20px;
+  right: 35px;
+  font-size: 30px;
+  cursor: pointer;
+  color: #5a4632;
+}
+
+.close:hover {
+  color: black;
+}
+
+/* Navigation */
+.nav {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  font-size: 42px;
+  color: #5a4632;
+  cursor: pointer;
+  user-select: none;
+  padding: 10px;
+}
+
+.prev { left: 20px; }
+.next { right: 20px; }
+
+.nav:hover {
+  color: black;
+}
+
+/* Scroll discret */
+.album-frame::-webkit-scrollbar {
+  width: 6px;
+}
+
+.album-frame::-webkit-scrollbar-thumb {
+  background: rgba(0,0,0,0.25);
+  border-radius: 3px;
+}
