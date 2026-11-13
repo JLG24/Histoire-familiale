@@ -102,6 +102,12 @@ h3 {
   margin-top: 1.5rem;
 }
 
+ blockquote {
+  font-style: italic;
+  border-left: 4px solid #2c3e50;
+  padding: 2rem;
+  margin: 2rem 0;
+  background: #f8f9fa; }
 /* ================================
    TEXTE
    ================================ */
